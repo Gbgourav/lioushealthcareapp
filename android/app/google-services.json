@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "973554262670",
+    "project_id": "lious-409205",
+    "storage_bucket": "lious-409205.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973554262670:android:ddcae1a4426393d8d29fdf",
+        "android_client_info": {
+          "package_name": "com.lioushealthcareapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ4Ct2MHQ_yRQg1ke2IeFR5XtJHYVNJBI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

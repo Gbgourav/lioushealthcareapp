@@ -1,18 +1,61 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import SendOtp from '../screens/auth/SendOtp';
+import {AuthStack} from './authStack';
+import {connect, useDispatch} from 'react-redux';
+import {CustomerStack} from './CustomerStack';
+import {useEffect} from 'react';
+import {initializeUserFromStorage} from '../redux/actions/userActions';
+import Splash from '../screens/auth/Splash';
+import VendorStack from './VendorStack';
 
 const Stack = createNativeStackNavigator();
 
-function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="SendOtp" component={SendOtp} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
+const AppNavigator = ({userData}) => {
+  const dispatch = useDispatch();
 
-export default App;
+  useEffect(() => {
+    dispatch(initializeUserFromStorage());
+  }, []);
+
+  return (
+    <>
+      <Stack.Navigator>
+        {userData.loading ? (
+          <Stack.Screen
+            name="Splash"
+            component={Splash}
+            options={{headerShown: false}}
+          />
+        ) : !userData.token ? (
+          <Stack.Screen
+            name="AuthStack"
+            component={AuthStack}
+            options={{headerShown: false}}
+            initialParams={{userData}}
+          />
+        ) : userData.usertype === 'Consumer' ? (
+          <Stack.Screen
+            name="CustomerStack"
+            component={CustomerStack}
+            options={{headerShown: false}}
+            initialParams={{userData}}
+          />
+        ) : (
+          <Stack.Screen
+            name="VendorStack"
+            component={VendorStack}
+            options={{headerShown: false}}
+            initialParams={{userData}}
+          />
+        )}
+      </Stack.Navigator>
+    </>
+  );
+};
+
+const mapStateToProps = state => {
+  return {
+    userData: state.user,
+  };
+};
+export default connect(mapStateToProps)(AppNavigator);
